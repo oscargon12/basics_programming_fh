@@ -1,4 +1,4 @@
-let people: string[] = ['Hugo', 'Paco', 'Luis'];
+export let people: string[] = ['Hugo', 'Paco', 'Luis'];
 let salaries: number[] = [1000, 1200, 1500]
 //let nums: number[] = [1,2,3,4,5];
 
