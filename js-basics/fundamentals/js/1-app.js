@@ -16,3 +16,19 @@ let e = 'Hola ',
     f = 'Spiderman';
 
 const message = e + f;
+
+console.log(message);
+
+e = 'Hola de nuevo';
+
+//alert('Holaaaa')
+
+
+// ** Orden de los archivos importa,
+// ** primero establezco lo que uso:
+
+// (File 1) let myVariable = 'Hello world'
+// (File 2) console.log(myVariable)
+
+// *** NO VAR VARIABLES ***
+// let y const no sobreescriben al objeto window
