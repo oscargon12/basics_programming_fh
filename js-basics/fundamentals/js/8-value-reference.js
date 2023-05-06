@@ -2,7 +2,7 @@ const fruits = ['apple', 'pear', 'Pineapple'];
 
 
 //Si imprimo esto, ambas frutas será iguales
-//Para dejarlo como es:
+//Para bloquear que 'Mango' se duplique como es:
 
 const otherFruits = fruits.slice();
 
