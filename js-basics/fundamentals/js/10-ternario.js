@@ -19,7 +19,6 @@ let message;  //está abierto o cerrado
 openHour = ( [0,6].includes( day ) ) ? 9 : 11;
 //El includes dice si en ese array está el día, entonces...
 
-
 /* if( currentHour >= openHour ){
     message = 'Esta abierto'
 } else {
