@@ -11,3 +11,10 @@ html, body{
 .main-bg{
     background-color: var(--main-bg);    
 }
+
+.card{
+    left: 100px;
+    margin-left: -75px;
+    position: relative;
+    width: 150px;
+}
