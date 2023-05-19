@@ -43,8 +43,16 @@ const takeCard = () => {
 //takeCard();
 
 const cardValue = (card) => {
-    const value = card.substring(0, card.length - 1);
-    console.log({value})
+    let value = card.substring(0, card.length - 1); //Separa los numeros del string, desde el item 0 del string, hasta antes del último
+    let points = 0;
+    //console.log(typeof(value))
+
+    isNaN(value) ?
+    points = (value === 'A') ? 11 : 10 
+    : points = value * 1;
+
+    return points
 }
 
-cardValue('2D');
+const takenCardValue = cardValue(takeCard());
+console.log(takenCardValue);
