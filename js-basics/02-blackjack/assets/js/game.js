@@ -56,3 +56,35 @@ const cardValue = (card) => {
 
 const takenCardValue = cardValue(takeCard());
 console.log(takenCardValue);
+
+//Puedo acceder al html así
+document.querySelector('#title').innerText = 'Oscar Gonzalez'
+'Oscar Gonzalez'
+
+//pero es recomendable almacenar too en una variable
+//Para que no tenga que ir al html de nuevo
+const gameTitle = document.querySelector('#title');
+gameTitle.innerText = 'Jueguito'
+
+
+
+const divBotones = document.querySelector('#botones');
+
+//divBotones
+//<div id=​"botones" class=​"col-12 d-flex justify-content-center">​…​</div>​flex<button class=​"btn btn-primary mx-2">​Nuevo juego​</button>​<button class=​"btn btn-light mx-2">​Pedir carta​</button>​<button class=​"btn btn-danger mx-2">​Detener​</button>​</div>​
+const newButton = document.createElement('button');
+
+divBotones.append(newButton); //agrega el botón con append
+
+newButton.innerText = ('Destruir baraja')
+'Destruir baraja'
+newButton
+//<button>​Destruir baraja​</button>​
+newButton.classList.add('btn') //agrega clases css al tag
+
+newButton.classList.add('btn-success')
+
+const myInput = document.createElement('input');
+document.body.append(myInput);
+myInput.classList.add('form-control'); //Solo agrega de a una clase
+myInput.placeholder = 'Hola mundo';
