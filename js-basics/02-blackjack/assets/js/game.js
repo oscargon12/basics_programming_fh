@@ -2,6 +2,15 @@ let deck            = [];
 const cardTypes     = ['C', 'D', 'H', 'S'];
 const specialCards = ['A', 'J', 'Q', 'K'];
 
+let playerPoints = 0,
+    machinePionts = 0;
+
+
+//Referencias del html
+const takeCardBtn = document.querySelector('#takeCard');
+const playerPointsTag = document.querySelector('#playerPoints')
+const divPlayerCards = document.querySelector('#player-cards');
+
 //Función que rellena el deck de cartas automáticamente
 const createDeck = () =>{
 
@@ -57,16 +66,15 @@ const cardValue = (card) => {
 const takenCardValue = cardValue(takeCard());
 console.log(takenCardValue);
 
+// ** DOM **
 //Puedo acceder al html así
 document.querySelector('#title').innerText = 'Oscar Gonzalez'
 'Oscar Gonzalez'
 
-//pero es recomendable almacenar too en una variable
+//pero es recomendable almacenar todo en una variable
 //Para que no tenga que ir al html de nuevo
 const gameTitle = document.querySelector('#title');
 gameTitle.innerText = 'Jueguito'
-
-
 
 const divBotones = document.querySelector('#botones');
 
@@ -88,3 +96,21 @@ const myInput = document.createElement('input');
 document.body.append(myInput);
 myInput.classList.add('form-control'); //Solo agrega de a una clase
 myInput.placeholder = 'Hola mundo';
+
+//*** Eventos ***/
+takeCardBtn.addEventListener('click', () => {
+    const card = takeCard(); //capturo una carta
+    console.log('Click en boton');
+
+    playerPoints += cardValue( card ); //le agrego el takeCard a la suma por cada click
+    console.log(playerPoints);
+    playerPointsTag.innerText = playerPoints; //los puntos del jugador se ponen en el DOM
+    
+    //set cards in dom
+    const imgCard = document.createElement('img');
+    imgCard.src = `assets/cartas/${ card }.png`;
+    imgCard.classList.add('card');
+
+    divPlayerCards.append( imgCard );
+});
+
