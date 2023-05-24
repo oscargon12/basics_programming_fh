@@ -109,5 +109,18 @@ takeCardBtn.addEventListener('click', () => {
 
     playerPointsTag.innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
     
+    //Mostrando cartas
+    const imgCard = document.createElement('img');
+    imgCard.src = `assets/cartas/${ card }.png`;
+    divPlayerCards.append(imgCard);
+
+    //Añadiendo estilos a la imagen carta
+    imgCard.classList.add('card')
+
+    if(playerPoints > 21){
+        takeCardBtn.disabled = true;
+    } else if ( playerPoints === 21 ){
+        alert('Ganaste !')
+    }
 });
 
