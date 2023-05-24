@@ -3,7 +3,7 @@ const cardTypes     = ['C', 'D', 'H', 'S'];
 const specialCards = ['A', 'J', 'Q', 'K'];
 
 let playerPoints = 0,
-    machinePionts = 0;
+    machinePoints = 0;
 
 
 //Referencias del html
@@ -22,14 +22,15 @@ const createDeck = () =>{
         }
     }
 
-    //Otro for para rear las cartas especiale
+    //Otro for para rear las cartas especiales
     for(let type of cardTypes){
         for(let special of specialCards) {
             deck.push( special + type );
         }
     }
     
-    deck = _.shuffle(deck);
+    //el shuffle solo puedo traerlo con la librería underscore
+    deck = _.shuffle(deck); //sirve para volverrandom el orden de un array
     console.log( deck );
     return deck;
 }
@@ -99,18 +100,14 @@ myInput.placeholder = 'Hola mundo';
 
 //*** Eventos ***/
 takeCardBtn.addEventListener('click', () => {
-    const card = takeCard(); //capturo una carta
+    const card = takeCard(); //capturo una carta 
     console.log('Click en boton');
 
-    playerPoints += cardValue( card ); //le agrego el takeCard a la suma por cada click
-    console.log(playerPoints);
-    playerPointsTag.innerText = playerPoints; //los puntos del jugador se ponen en el DOM
-    
-    //set cards in dom
-    const imgCard = document.createElement('img');
-    imgCard.src = `assets/cartas/${ card }.png`;
-    imgCard.classList.add('card');
+    //Puntos de jugador = puntos de jugador + valor de la carta tomada
+    playerPoints += cardValue( card )
+    //console.log(`la sumatoria va en ${playerPoints}`)
 
-    divPlayerCards.append( imgCard );
+    playerPointsTag.innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
+    
 });
 
