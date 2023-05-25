@@ -8,8 +8,12 @@ let playerPoints = 0,
 
 //Referencias del html
 const takeCardBtn = document.querySelector('#takeCard');
-const playerPointsTag = document.querySelector('#playerPoints')
+const stopGameBtn = document.querySelector('#btnStop');
+const newGameBtn = document.querySelector('#newGameBtn');
+
+const pointsTagHTML = document.querySelectorAll('small')
 const divPlayerCards = document.querySelector('#player-cards');
+const divPcCards = document.querySelector('#pc-cards');
 
 //Función que rellena el deck de cartas automáticamente
 const createDeck = () =>{
@@ -64,6 +68,43 @@ const cardValue = (card) => {
     return points
 }
 
+//Turno de la computadora
+//se dispara por dos condiciones (jugador 1 pierde || detiene el juego)
+//Entonces se dispara una rutina que llegue hasta 21
+const pcTurn = ( minimumPoints ) => {
+    //el usuario no va a presionar el botó, la rutina debe activarse sola
+    //Por eso el dowhile
+    do {
+        const card = takeCard(); //capturo una carta 
+
+        machinePoints += cardValue( card )
+
+        pointsTagHTML[1].innerText = machinePoints; //Siempre que oprima el boton, muestre el nuevo valor
+        const imgCard = document.createElement('img');
+        imgCard.src = `assets/cartas/${ card }.png`;
+        imgCard.classList.add('card')
+        divPcCards.append(imgCard);
+
+        if(minimumPoints > 21){ //Si los puntos del jugador son mayores a 21
+            break;
+        }
+
+    } while ( (machinePoints < minimumPoints) && (minimumPoints <= 21) ); //Condicion para activar el turno del pc
+
+    setTimeout(() => {
+
+        if ( playerPoints === machinePoints ){
+            alert('Nadie gana')
+        } else if (minimumPoints > 21){
+            alert('Computadora gana')
+        } else if (machinePoints > 21){
+            alert('Jugador gana')
+        } else {
+            alert('Compu gana')
+        }
+    }, 100)
+}
+
 const takenCardValue = cardValue(takeCard());
 console.log(takenCardValue);
 
@@ -107,7 +148,7 @@ takeCardBtn.addEventListener('click', () => {
     playerPoints += cardValue( card )
     //console.log(`la sumatoria va en ${playerPoints}`)
 
-    playerPointsTag.innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
+    pointsTagHTML[0].innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
     
     //Mostrando cartas
     const imgCard = document.createElement('img');
@@ -118,9 +159,52 @@ takeCardBtn.addEventListener('click', () => {
     imgCard.classList.add('card')
 
     if(playerPoints > 21){
-        takeCardBtn.disabled = true;
-    } else if ( playerPoints === 21 ){
-        alert('Ganaste !')
+        console.warn('lo siento perdiste')
+        takeCardBtn.disabled = true
+        stopGameBtn.disabled = true;
+        pcTurn( playerPoints ); //Dispara función de turno de la pc
+    } else if (playerPoints === 21) {
+        console.warn('ganaste') //solo si es21 exacto
+        pcTurn( playerPoints );
+        takeCardBtn.disabled = true
+        stopGameBtn.disabled = true;
     }
 });
 
+//pcTurn( 16 ); // el parametro son los puntos del jugador
+
+//Bloquear botones y disparar el turno de la pc
+const stopGame = () => {
+    takeCardBtn.disabled = true;
+    stopGameBtn.disabled = true;
+    pcTurn( playerPoints ); //Dispara función de turno de la pc
+}
+
+stopGameBtn.addEventListener('click', stopGame );
+
+//Nuevo juego resetear todo
+//Volver a crear el deck
+//Borrar cartas del dom
+//resetear los puntajes
+//Habilitar botones
+
+newGameBtn.addEventListener('click', () => {
+    console.clear();
+    console.log('juego reseteado')
+
+    //nuevo deck
+    deck = []
+    deck = createDeck();
+
+    //Puntajes en 0
+    playerPoints = 0;
+    machinePoints = 0;
+    pointsTagHTML[0].innerText = playerPoints;
+    pointsTagHTML[1].innerText = machinePoints;
+
+    takeCardBtn.disabled = false;
+    stopGameBtn.disabled = false;
+
+    divPlayerCards.innerHTML = ''
+    divPcCards.innerHTML = ''
+});
