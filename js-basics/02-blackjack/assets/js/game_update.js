@@ -21,8 +21,7 @@
           newGameBtn    = document.querySelector('#newGameBtn');
 
     const pointsTagHTML = document.querySelectorAll('small'),
-          divPlayerCards = document.querySelector('#player-cards'),
-          divPcCards = document.querySelector('#pc-cards');
+          playersCardsTag = document.querySelectorAll('.divCards')
 
     //Funcion que inicializa el juego
     const inicializarJuego = (numPlayers = 2) =>{
@@ -32,7 +31,7 @@
             playersPoints.push(0);
         }
 
-        console.log( {playersPoints} ); //Esto imprime playersPoints: (2) [0, 0]
+        //console.log( {playersPoints} ); //Esto imprime playersPoints: (2) [0, 0]
     }
 
     //Función que rellena el deck de cartas automáticamente
@@ -86,7 +85,12 @@
     }
 
     //acumular puntos jugador
-    const addingPlayerPoints = () => {
+    const addingPlayerPoints = (card, turn) => {
+
+        playersPoints[turn] += cardValue( card )
+        pointsTagHTML[turn].innerText = playersPoints[turn]; //Siempre que oprima el boton, muestre el nuevo valor
+
+        return playersPoints[turn]
 
     }
 
@@ -94,14 +98,12 @@
     //se dispara por dos condiciones (jugador 1 pierde || detiene el juego)
     //Entonces se dispara una rutina que llegue hasta 21
     const pcTurn = ( minimumPoints ) => {
+
         //el usuario no va a presionar el botó, la rutina debe activarse sola
         //Por eso el dowhile
         do {
             const card = takeCard(); //capturo una carta 
-
-            machinePoints += cardValue( card )
-
-            pointsTagHTML[1].innerText = machinePoints; //Siempre que oprima el boton, muestre el nuevo valor
+            addingPlayerPoints(card, playersPoints.length - 1);
             const imgCard = document.createElement('img');
             imgCard.src = `assets/cartas/${ card }.png`;
             imgCard.classList.add('card')
@@ -160,13 +162,13 @@
     //*** Eventos ***/
     takeCardBtn.addEventListener('click', () => {
         const card = takeCard(); //capturo una carta 
-        console.log('Click en boton');
+        console.log('Ccarta pedida');
 
+        const playerPoints = addingPlayerPoints( card, 0 );
         //Puntos de jugador = puntos de jugador + valor de la carta tomada
-        playerPoints += cardValue( card )
+        //playerPoints += cardValue( card )
         //console.log(`la sumatoria va en ${playerPoints}`)
-
-        pointsTagHTML[0].innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
+        //pointsTagHTML[0].innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
         
         //Mostrando cartas
         const imgCard = document.createElement('img');
@@ -216,8 +218,9 @@
         //deck = createDeck();
 
         //Puntajes en 0
-        playerPoints = 0;
-        machinePoints = 0;
+        //playerPoints = 0;
+        //machinePoints = 0;
+
         pointsTagHTML[0].innerText = playerPoints;
         pointsTagHTML[1].innerText = machinePoints;
 
