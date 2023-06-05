@@ -1,43 +1,32 @@
-//🔹 mejoras
+(() => { //Funcion autoinvocada para dar seguridad al archivo
 
-//🔹 Función anonima autoinvocada, brinda seguridad
-(() => {
-    'use strict' //sintaxis más estricta
-    const players = ['Marce', 'Mia', 'May'];
-    console.log(players);
-    //Imprime players por el console.log, pero si llamo players no lo encontrará
-
-    let deck           = [];
-    const cardTypes    = ['C', 'D', 'H', 'S'],
+    let deck            = [];
+    const cardTypes     = ['C', 'D', 'H', 'S'],
           specialCards = ['A', 'J', 'Q', 'K'];
 
-    /* let playerPoints = 0,
-        machinePoints = 0; */ //Se cambia por un arreglo de jugadores 👇
-        let playersPoints = [];
+    let playerPoints = 0,
+        machinePoints = 0;
+
+    //TODO Voy en el miunto 5 dela primera optimizacion
+
 
     //Referencias del html
-    const takeCardBtn   = document.querySelector('#takeCard'),
-          stopGameBtn   = document.querySelector('#btnStop'),
-          newGameBtn    = document.querySelector('#newGameBtn');
+    const takeCardBtn = document.querySelector('#takeCard'),
+          stopGameBtn = document.querySelector('#btnStop'),
+          newGameBtn = document.querySelector('#newGameBtn');
 
     const pointsTagHTML = document.querySelectorAll('small'),
-          playersCardsTag = document.querySelectorAll('.divCards')
+          divPlayerCards = document.querySelector('#player-cards'),
+          divPcCards = document.querySelector('#pc-cards');
 
-    //Funcion que inicializa el juego
-    const inicializarJuego = (numPlayers = 2) =>{
-        deck = createDeck();
-
-        for(let i = 0; i < numPlayers; i++){
-            playersPoints.push(0);
-        }
-
-        //console.log( {playersPoints} ); //Esto imprime playersPoints: (2) [0, 0]
+    const startGame = () => {
+        createDeck();
     }
 
     //Función que rellena el deck de cartas automáticamente
     const createDeck = () =>{
 
-        deck = []; //reinicializando el deck
+        deck = [];
         //con un for anidado completo la primera parte del nombre del asset
         //(las cartas del 1 al 10)
         for(let i = 2; i <= 10; i++){
@@ -54,10 +43,10 @@
         }
         
         //el shuffle solo puedo traerlo con la librería underscore
-        //console.log(deck)
-        return _.shuffle(deck); //sirve para volverrandom el orden de un array;
-        //🔹 Retorno directamente el valor sin guardarlo en una variable
+        return _.shuffle(deck); //sirve para volverrandom el orden de un array
     }
+
+    createDeck();
 
     //Funcion que permite tomar una carta
     const takeCard = () => {
@@ -68,8 +57,9 @@
             throw 'No hay cartas en el deck'
         }
 
-        return deck.pop(); //🔹 Retorno directamente el valor sin guardarlo en una variable
+        return takenCard = deck.pop();
     }
+    //takeCard();
 
     const cardValue = (card) => {
         let value = card.substring(0, card.length - 1); //Separa los numeros del string, desde el item 0 del string, hasta antes del último
@@ -83,28 +73,29 @@
         return points
     }
 
-    //acumular puntos jugador
-    //turno 0 = primer jugador, el último será la maquina
-    const addingPlayerPoints = (card, turn) => {
+    //Turno de la computadora
+    //se dispara por dos condiciones (jugador 1 pierde || detiene el juego)
+    //Entonces se dispara una rutina que llegue hasta 21
+    const pcTurn = ( minimumPoints ) => {
+        //el usuario no va a presionar el botó, la rutina debe activarse sola
+        //Por eso el dowhile
+        do {
+            const card = takeCard(); //capturo una carta 
 
-        playersPoints[turn] += cardValue( card )
-        pointsTagHTML[turn].innerText = playersPoints[turn]; //Siempre que oprima el boton, muestre el nuevo valor
+            machinePoints += cardValue( card )
 
-        return playersPoints[turn]
-    }
+            pointsTagHTML[1].innerText = machinePoints; //Siempre que oprima el boton, muestre el nuevo valor
+            const imgCard = document.createElement('img');
+            imgCard.src = `assets/cartas/${ card }.png`;
+            imgCard.classList.add('card')
+            divPcCards.append(imgCard);
 
-    //Crear carta
-    const createCard = ( card, turn ) => {
-        const imgCard = document.createElement('img');
-        imgCard.src = `assets/cartas/${ card }.png`;
-        imgCard.classList.add('card')
-        //turno 0 = primer jugador, el último será la maquina
-        playersCardsTag[turn].append(imgCard);
-    }
+            if(minimumPoints > 21){ //Si los puntos del jugador son mayores a 21
+                break;
+            }
 
-    const setWinner = () => {
-        
-        //const [ minimumPoints, machinePoints ] = 
+        } while ( (machinePoints < minimumPoints) && (minimumPoints <= 21) ); //Condicion para activar el turno del pc
+
         setTimeout(() => {
 
             if ( playerPoints === machinePoints ){
@@ -118,28 +109,9 @@
             }
         }, 100)
     }
- 
-    //Turno de la computadora
-    //se dispara por dos condiciones (jugador 1 pierde || detiene el juego)
-    //Entonces se dispara una rutina que llegue hasta 21
-    const pcTurn = ( minimumPoints ) => {
 
-        let machinePoints = 0;
-        //el usuario no va a presionar el botó, la rutina debe activarse sola
-        //Por eso el dowhile
-        do {
-            const card = takeCard(); //capturo una carta 
-            machinePoints = addingPlayerPoints(card, playersPoints.length - 1);
-            
-            //Funcion crear carta
-            createCard(card, playersPoints.length - 1);
-
-        } while ( (machinePoints < minimumPoints) && (minimumPoints <= 21) ); //Condicion para activar el turno del pc
-    }
-
-    //Valor de la carta tomada
-    //const takenCardValue = cardValue(takeCard());
-    //console.log(takenCardValue);
+    const takenCardValue = cardValue(takeCard());
+    console.log(takenCardValue);
 
     // ** DOM **
     //Puedo acceder al html así
@@ -154,6 +126,7 @@
     const divBotones = document.querySelector('#botones');
 
     //divBotones
+    //<div id=​"botones" class=​"col-12 d-flex justify-content-center">​…​</div>​flex<button class=​"btn btn-primary mx-2">​Nuevo juego​</button>​<button class=​"btn btn-light mx-2">​Pedir carta​</button>​<button class=​"btn btn-danger mx-2">​Detener​</button>​</div>​
     const newButton = document.createElement('button');
 
     divBotones.append(newButton); //agrega el botón con append
@@ -163,17 +136,32 @@
     newButton
     //<button>​Destruir baraja​</button>​
     newButton.classList.add('btn') //agrega clases css al tag
+
     newButton.classList.add('btn-success')
 
+    const myInput = document.createElement('input');
+    document.body.append(myInput);
+    myInput.classList.add('form-control'); //Solo agrega de a una clase
+    myInput.placeholder = 'Hola mundo';
 
     //*** Eventos ***/
     takeCardBtn.addEventListener('click', () => {
         const card = takeCard(); //capturo una carta 
-        console.log('Carta pedida');
+        console.log('Click en boton');
 
-        const playerPoints = addingPlayerPoints( card, 0 );
+        //Puntos de jugador = puntos de jugador + valor de la carta tomada
+        playerPoints += cardValue( card )
+        //console.log(`la sumatoria va en ${playerPoints}`)
+
+        pointsTagHTML[0].innerText = playerPoints; //Siempre que oprima el boton, muestre el nuevo valor
         
-        createCard(card, 0);
+        //Mostrando cartas
+        const imgCard = document.createElement('img');
+        imgCard.src = `assets/cartas/${ card }.png`;
+        divPlayerCards.append(imgCard);
+
+        //Añadiendo estilos a la imagen carta
+        imgCard.classList.add('card')
 
         if(playerPoints > 21){
             console.warn('lo siento perdiste')
@@ -207,24 +195,22 @@
 
     newGameBtn.addEventListener('click', () => {
         console.clear();
-        console.log('juego reseteado')
-        inicializarJuego();
+        console.log('juego reseteado');
 
         //nuevo deck
-        //deck = []
-        //deck = createDeck();
+        deck = []
+        deck = createDeck();
 
         //Puntajes en 0
-        //playerPoints = 0;
-        //machinePoints = 0;
+        playerPoints = 0;
+        machinePoints = 0;
+        pointsTagHTML[0].innerText = playerPoints;
+        pointsTagHTML[1].innerText = machinePoints;
 
-        // pointsTagHTML[0].innerText = playerPoints;
+        takeCardBtn.disabled = false;
+        stopGameBtn.disabled = false;
 
-        // takeCardBtn.disabled = false;
-        // stopGameBtn.disabled = false;
-
-        // divPlayerCards.innerHTML = ''
-        // divPcCards.innerHTML = ''
+        divPlayerCards.innerHTML = ''
+        divPcCards.innerHTML = ''
     });
-
 })();
