@@ -5,10 +5,8 @@
           specialCards = ['A', 'J', 'Q', 'K'];
 
     let playerPoints = 0,
-        machinePoints = 0;
-
-    //TODO Voy en el miunto 5 dela primera optimizacion
-
+        machinePoints = 0; //Estas se reemlpaza por un array de puntos de todos los jugadores */
+    const playersPoints = [];
 
     //Referencias del html
     const takeCardBtn = document.querySelector('#takeCard'),
@@ -18,10 +16,6 @@
     const pointsTagHTML = document.querySelectorAll('small'),
           divPlayerCards = document.querySelector('#player-cards'),
           divPcCards = document.querySelector('#pc-cards');
-
-    const startGame = () => {
-        createDeck();
-    }
 
     //Función que rellena el deck de cartas automáticamente
     const createDeck = () =>{

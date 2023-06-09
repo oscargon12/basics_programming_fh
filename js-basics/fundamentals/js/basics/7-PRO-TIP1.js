@@ -49,6 +49,6 @@ const tony = {
 
 const printProps = ({ name, codeName, alive, age = 0, suits }) => { //Si no hay edad en el objeto, por defaul sera 0
     console.log({ name });
-    console.log({ name });
-    console.log({ name });
+    console.log({ codeName });
+    console.log({ alive });
 }
