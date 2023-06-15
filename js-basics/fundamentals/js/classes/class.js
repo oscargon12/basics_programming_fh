@@ -33,8 +33,6 @@ class PersonaHeroe {
         return `La comida favorita de ${this.name} es ${this.food}`; //El get siempre debe retornr algo
     }
 
-
-
     //metodos 🔹
     whoAmI(){
         console.log(`Soy ${this.name} y mi identidad secreta es ${this.nickName}`)
