@@ -1,5 +1,5 @@
 import './style.css'
-import _ from 'underscore';
+import _ from 'underscore'; //trayendo la libreria underscore para el shuffle
 
 /**
  * 2C = Two of Clubs
