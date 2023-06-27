@@ -12,6 +12,6 @@ export const numsTimesTable = (base:number, limit:number = 10) => {
         }
     }
     catch(error){
-        console.log(`Se produjo el siguiente error ${error}`)
+        console.log(`Se produjo el siguiente error ${error}`    )
     }
 }

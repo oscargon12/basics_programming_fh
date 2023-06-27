@@ -1,6 +1,9 @@
 import _ from 'underscore'; //trayendo la libreria underscore para el shuffle
 import { crearDeck } from './usecases/crear-deck'; //as es un alias de como quiero que se llame la funcion
 //import crearUnNuevoDeck, { miNombre } from './usecases/crear-deck'; //Le doy cualquier nombre porque viene exportada por defecto
+import { tipos, especiales } from './usecases/tipos';
+import { pedirCarta } from './usecases/pedir-carta';
+import { valorCarta } from './usecases/valor-carta';
 
 //console.log({miNombre});
 /**
@@ -9,10 +12,6 @@ import { crearDeck } from './usecases/crear-deck'; //as es un alias de como quie
  * 2H = Two of Hearts
  * 2S = Two of Spades
  */
-
-let deck         = [];
-const tipos      = ['C','D','H','S'];
-const especiales = ['A','J','Q','K'];
 
 let puntosJugador = 0,
     puntosComputadora = 0;
@@ -31,40 +30,23 @@ btnPedir.disabled   = true;
 btnDetener.disabled = true;
 
 // Esta función crea un nuevo deck
-deck = crearDeck(tipos, especiales);
-
-
-// Esta función me permite tomar una carta
-const pedirCarta = () => {
-
-    if ( deck.length === 0 ) {
-        throw 'No hay cartas en el deck';
-    }
-    const carta = deck.pop();
-    return carta;
-}
+let deck = crearDeck(tipos, especiales);
 
 // pedirCarta();
-const valorCarta = ( carta ) => {
-
-    const valor = carta.substring(0, carta.length - 1);
-    return ( isNaN( valor ) ) ? 
-            ( valor === 'A' ) ? 11 : 10
-            : valor * 1;
-}
+// valorCarta();
 
 // turno de la computadora
 const turnoComputadora = ( puntosMinimos ) => {
 
     do {
-        const carta = pedirCarta();
+        const cartaPedidaPC = pedirCarta();
 
-        puntosComputadora = puntosComputadora + valorCarta( carta );
+        puntosComputadora = puntosComputadora + valorCarta( cartaPedidaPC );
         puntosHTML[1].innerText = puntosComputadora;
         
         // <img class="carta" src="assets/cartas/2C.png">
         const imgCarta = document.createElement('img');
-        imgCarta.src = `assets/cartas/${ carta }.png`; //3H, JD
+        imgCarta.src = `assets/cartas/${ cartaPedidaPC }.png`; //3H, JD
         imgCarta.classList.add('carta');
         divCartasComputadora.append( imgCarta );
 
@@ -92,14 +74,14 @@ const turnoComputadora = ( puntosMinimos ) => {
 // Eventos
 btnPedir.addEventListener('click', () => {
 
-    const carta = pedirCarta();
+    const cartaPedidaUsuario = pedirCarta();
     
-    puntosJugador = puntosJugador + valorCarta( carta );
+    puntosJugador = puntosJugador + valorCarta( cartaPedidaUsuario );
     puntosHTML[0].innerText = puntosJugador;
     
     // <img class="carta" src="assets/cartas/2C.png">
     const imgCarta = document.createElement('img');
-    imgCarta.src = `assets/cartas/${ carta }.png`; //3H, JD
+    imgCarta.src = `assets/cartas/${ cartaPedidaUsuario }.png`; //3H, JD
     imgCarta.classList.add('carta');
     divCartasJugador.append( imgCarta );
 
