@@ -6,7 +6,7 @@ import _ from 'underscore'
  * @param {Array<String>} tiposEspeciales Ejemplo: ['A', 'J', 'Q', 'K']
  * @returns {Array} Retorna un nuevo deck de cartas
  */
-//Esto crea una axplicación de la función que se va a exportar, me va a decir qué tipos de datos necesito
+//Esto crea una explicación de la función que se va a exportar, me va a decir qué tipos de datos necesito
 
 export const crearDeck = (tiposDeCarta, tiposEspeciales) => {
 

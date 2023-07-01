@@ -1,9 +1,13 @@
 import _ from 'underscore'; //trayendo la libreria underscore para el shuffle
-import { crearDeck } from './usecases/crear-deck'; //as es un alias de como quiero que se llame la funcion
 //import crearUnNuevoDeck, { miNombre } from './usecases/crear-deck'; //Le doy cualquier nombre porque viene exportada por defecto
-import { tipos, especiales } from './usecases/tipos';
-import { pedirCarta } from './usecases/pedir-carta';
-import { valorCarta } from './usecases/valor-carta';
+
+import { crearDeck,
+    tipos,
+    especiales,
+    pedirCarta,
+    valorCarta,
+    turnoComputadora,
+    crearCartaHTML} from './usecases/index';
 
 //console.log({miNombre});
 /**
@@ -34,78 +38,40 @@ let deck = crearDeck(tipos, especiales);
 
 // pedirCarta();
 // valorCarta();
-
-// turno de la computadora
-const turnoComputadora = ( puntosMinimos ) => {
-
-    do {
-        const cartaPedidaPC = pedirCarta();
-
-        puntosComputadora = puntosComputadora + valorCarta( cartaPedidaPC );
-        puntosHTML[1].innerText = puntosComputadora;
-        
-        // <img class="carta" src="assets/cartas/2C.png">
-        const imgCarta = document.createElement('img');
-        imgCarta.src = `assets/cartas/${ cartaPedidaPC }.png`; //3H, JD
-        imgCarta.classList.add('carta');
-        divCartasComputadora.append( imgCarta );
-
-        if( puntosMinimos > 21 ) {
-            break;
-        }
-
-    } while(  (puntosComputadora < puntosMinimos)  && (puntosMinimos <= 21 ) );
-
-    setTimeout(() => {
-        if( puntosComputadora === puntosMinimos ) {
-            alert('Nadie gana :(');
-        } else if ( puntosMinimos > 21 ) {
-            alert('Computadora gana')
-        } else if( puntosComputadora > 21 ) {
-            alert('Jugador Gana');
-        } else {
-            alert('Computadora Gana')
-        }
-    }, 100 );
-}
-
-
+// turnoComputadora();
 
 // Eventos
 btnPedir.addEventListener('click', () => {
 
-    const cartaPedidaUsuario = pedirCarta();
+    const carta = pedirCarta( deck );
     
-    puntosJugador = puntosJugador + valorCarta( cartaPedidaUsuario );
+    puntosJugador = puntosJugador + valorCarta( carta );
     puntosHTML[0].innerText = puntosJugador;
     
     // <img class="carta" src="assets/cartas/2C.png">
-    const imgCarta = document.createElement('img');
-    imgCarta.src = `assets/cartas/${ cartaPedidaUsuario }.png`; //3H, JD
-    imgCarta.classList.add('carta');
+    const imgCarta = crearCartaHTML(carta);
+
     divCartasJugador.append( imgCarta );
 
     if ( puntosJugador > 21 ) {
         console.warn('Lo siento mucho, perdiste');
         btnPedir.disabled   = true;
         btnDetener.disabled = true;
-        turnoComputadora( puntosJugador );
+        turnoComputadora( puntosJugador, puntosHTML[1], divCartasComputadora, deck );
 
     } else if ( puntosJugador === 21 ) {
         console.warn('21, genial!');
         btnPedir.disabled   = true;
         btnDetener.disabled = true;
-        turnoComputadora( puntosJugador );
+        turnoComputadora( puntosJugador, puntosHTML[1], divCartasComputadora, deck );
     }
-
 });
-
 
 btnDetener.addEventListener('click', () => {
     btnPedir.disabled   = true;
     btnDetener.disabled = true;
 
-    turnoComputadora( puntosJugador );
+    turnoComputadora( puntosJugador, puntosHTML[1], divCartasComputadora, deck );
 });
 
 btnNuevo.addEventListener('click', () => {
