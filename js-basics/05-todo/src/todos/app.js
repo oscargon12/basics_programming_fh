@@ -1,4 +1,4 @@
-import html from './app.html?raw';
+import html from './app.html?raw'; //Importación en crudo
 
 /**
  * @param {String} elementId
