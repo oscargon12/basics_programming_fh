@@ -2,3 +2,5 @@
 /hanging/node_modules/
 /js-basics/03-vite-jsbasics/node_modules/
 /js-basics/05-todo/node_modules/
+/js-basics/06-advanced/.env
+/js-basics/06-advanced/node_modules
