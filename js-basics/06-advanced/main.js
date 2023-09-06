@@ -1,6 +1,7 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
+import { environmentsComponent } from './src/concepts/01-environments73';
 
 document.querySelector('#app').innerHTML = `
   <div>
@@ -16,6 +17,9 @@ document.querySelector('#app').innerHTML = `
 
   </div>
 `;
+
 console.log('Hola mundooo')
+const element = document.querySelector('.card');
+environmentsComponent(element)
 
 

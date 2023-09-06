@@ -1,12 +1,21 @@
+/* Las variables de entorno pueden tener distintos valores según el
+ambiente (dev, QA, prod)
+A estas variables no se les hace seguimiento en .gitignore */
+
 /**
  @param [HTMLDivElement] element
  * 
  * 
  */
 
-export const environmentsComponen = (element) => {
+export const environmentsComponent = (element) => {
 
+    console.log( import.meta.env.DEV ); //Info de las variables de entorno
     console.log('demoComonent')
+    const html = `
+        Variables:
+    `;
+    element.innerHTML = html;
 
 }
 
