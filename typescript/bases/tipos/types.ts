@@ -25,6 +25,13 @@
     console.log(<number>avengers.toFixed(2));
     //(<number>avengers) casteo hacia float 
 
+    //** Tuplas **
+    //Define el tipo de dato
+    const heroTuple: [string, number, boolean] = ['Dr Strange', 100, true];
+
+    heroTuple[0]= 'Ironman';
+
+
     //** Array **
     const numbers: number[] =  [1,2,3,4,5,6,7,8,9,0]
     //numbers: number[] me dice que es un arreglo de solo numeros   
@@ -43,4 +50,26 @@
     //Luego en otra variable
     let currentAudio:AudoLevel = AudoLevel.medium;
     console.log(currentAudio)
+
+    // ** Tipo Void **
+    //Las funciones tipo void, o vacías no tienen ningún return
+    function callBatman():void {
+        
+    }
+
+    // En arrow functions
+    const callSuperman = ():void => {
+
+    }
+
+    // ** Tipo never **
+    //Es una función que va a terminar con un error
+    //cannot have a reachable end point
+    const errorMsg = (message: string):never => {
+        throw new Error(message)
+    }
+    errorMsg('Auxilio');
+
+    // ** Null & Undefinend **
+    let nada: undefined = undefined;
 })()
