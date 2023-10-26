@@ -9,6 +9,7 @@
         return 'Activar batiseñal';
     };
     console.log(typeof turnOnLights);
+    
     // ** Parametros obligatorios en las funciones ** 
     const fullName = (firstName, lastName) => {
         return `${firstName} ${lastName}`;
@@ -16,6 +17,7 @@
     let heroName = fullName('Tony', 'Stark');
     console.log(heroName);
     ;
+
     // ** Parametros opcionales en las funciones ** 
     const fullHeroName = (firstName, lastName) => {
         return `${firstName} ${lastName || 'no lastname'}`;
@@ -25,6 +27,8 @@
     };
     let hero2Name = fullHeroName('Hulk');
     console.log(hero2Name); //Hulk no lastname
+
+
     // ** Parametros por defecto ** 
     const optionHeroName = (firstName, lastName, upper = false) => {
         if (upper) {
