@@ -46,8 +46,13 @@
 
     //**Destructuración de arrays */
 
-    const avengersArr: [string, boolean, number] = ['Cap. América', true, 150.15 ];
+    const avenArr = ['Cap. América', 'Hulk', 'Thor'];
+    const [ , hulk, ] = avenArr;
+    console.log(hulk); // hulk: Hulk
 
+    const avengersArr: [string, boolean, number] = ['Cap. América', true, 150.15 ];
     const [ capitan , ironman, seriaUnNumero ] = avengersArr;
+
+    console.log({capitan, ironman })
 
 })()
