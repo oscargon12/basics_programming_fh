@@ -73,3 +73,18 @@
     // ** Null & Undefinend **
     let nada: undefined = undefined;
 })()
+
+//En el tsconfig.json  puedo habilitar el removeComments: true para que cuando transpile a js, no incluya commentarios
+//removeComments: true
+
+
+// Puedo remover las carpetas que no quiero que sean transpiladas
+"compilerOptions": {
+    //...
+},
+"exclude": [
+    "node_modules2"
+]
+"include": [
+    "node_modules"
+]
